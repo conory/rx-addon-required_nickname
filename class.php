@@ -120,6 +120,10 @@ class required_nickname
 		{
 			return;
 		}
+		if(\Context::get('logged_info')->nick_name === $this->nick_name)
+		{
+			return;
+		}
 		
 		// Ambiguous word
 		if(preg_match(sprintf('/(?:%s)$/u', implode('|', self::getAmbiguousWord())), $this->nick_name))
@@ -128,7 +132,7 @@ class required_nickname
 		}
 		
 		// Dictionary
-		if(!self::$addon_info->opendict_api_key || \Context::get('logged_info')->nick_name === $this->nick_name)
+		if(!self::$addon_info->opendict_api_key)
 		{
 			return;
 		}
@@ -235,7 +239,7 @@ class required_nickname
 				// 종성과 함께 ex. 긥
 				if($char['jong'])
 				{
-					return true;
+					//return true;
 				}
 			}
 			
@@ -249,7 +253,7 @@ class required_nickname
 	{
 		return [
 			'관리자', 'admin', '매니저', '운영자', '운영진',
-			'닉네임', '회원', '선생', '스승', '서방', '선배', '후배', '아우', '천주', '생원', '형수', '형제', '자매', '고객', '도련', '공주', '왕자', '백작', '영감', '대감', '상감', '선비', '나라', '나랏', '하나', '하느', '아버', '이모', '고모', '부모', '어머', '할머', '장', '사', '스', '주', '님', '손', '마', '누', '형', '별', '헹', '행', '부', '녀', '관', '령', '신',
+			'닉네임', '회원', '질문자', '게시자', '작성자', '글쓴이', '익명', '선생', '스승', '서방', '선배', '후배', '아우', '천주', '생원', '형수', '형제', '자매', '고객', '도련', '공주', '왕자', '백작', '영감', '대감', '상감', '선비', '나라', '나랏', '하나', '하느', '아버', '이모', '고모', '부모', '어머', '할머', '장', '사', '스', '주', '님', '손', '마', '누', '형', '별', '헹', '행', '부', '녀', '관', '령', '신', '자', '가',
 		];
 	}
 }
