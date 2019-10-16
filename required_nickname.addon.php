@@ -7,7 +7,7 @@ if($called_position !== 'before_module_init')
 {
 	return;
 }
-if(!Context::get('is_logged') || !Context::get('nick_name') || Context::get('logged_info')->is_admin === 'Y')
+if(!Context::get('nick_name') || Context::get('is_logged') && Context::get('logged_info')->is_admin === 'Y')
 {
 	return;
 }

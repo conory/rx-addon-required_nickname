@@ -116,7 +116,11 @@ class required_nickname
 	
 	private function checkWord()
 	{
-		if(self::$addon_info->check_word !== 'Y' || $this->nick_name === \Context::get('logged_info')->nick_name)
+		if(self::$addon_info->check_word !== 'Y')
+		{
+			return;
+		}
+		if(\Context::get('is_logged') && $this->nick_name === \Context::get('logged_info')->nick_name)
 		{
 			return;
 		}
