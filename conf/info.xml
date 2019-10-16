@@ -13,11 +13,11 @@
 	<extra_vars>
 		<var name="min_length" type="text">
 			<title xml:lang="ko">최소 길이</title>
-			<description xml:lang="ko">닉네임의 최소 길이를 지정할 수 있습니다. 한글은 글자 당 길이 2로 취급됩니다.</description>
+			<description xml:lang="ko">닉네임의 최소 길이를 지정할 수 있습니다. 한글은 글자 당 길이 2를 차지합니다.</description>
 		</var>
 		<var name="max_length" type="text">
 			<title xml:lang="ko">최대 길이</title>
-			<description xml:lang="ko">닉네임의 최대 길이를 지정할 수 있습니다. 한글은 글자 당 길이 2로 취급됩니다.</description>
+			<description xml:lang="ko">닉네임의 최대 길이를 지정할 수 있습니다. 한글은 글자 당 길이 2를 차지합니다.</description>
 		</var>
 		<var name="mixed_use" type="select">
 			<title xml:lang="ko">혼용</title>

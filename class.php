@@ -116,50 +116,45 @@ class required_nickname
 	
 	private function checkWord()
 	{
-		if(self::$addon_info->check_word !== 'Y' || !preg_match('/[가-힣]/u', $this->nick_name))
-		{
-			return;
-		}
-		if(\Context::get('logged_info')->nick_name === $this->nick_name)
+		if(self::$addon_info->check_word !== 'Y' || $this->nick_name === \Context::get('logged_info')->nick_name)
 		{
 			return;
 		}
 		
 		// Ambiguous word
-		if(preg_match(sprintf('/(?:%s)$/u', implode('|', self::getAmbiguousWord())), $this->nick_name))
+		if(preg_match(sprintf('/(?:%s)s?$/iu', implode('|', self::getAmbiguousWord())), $this->nick_name))
 		{
 			throw new \Rhymix\Framework\Exception('사용할 수 없는 닉네임입니다.');
 		}
 		
 		// Dictionary
-		if(!self::$addon_info->opendict_api_key)
+		if(self::$addon_info->opendict_api_key && preg_match('/^[가-힣]+$/u', $this->nick_name))
 		{
-			return;
-		}
-		$dictionary_url = 'https://opendict.korean.go.kr/api/search';
-		$params = array(
-			'key' => self::$addon_info->opendict_api_key,
-			'q' => $this->nick_name,
-			'part' => 'word',
-			'sort' => 'dict',
-			'start' => '1',
-			'num' => '10',
-		);
-		if(!($dictionary = self::requestAPI($dictionary_url, $params)) || isset($dictionary->error))
-		{
-			throw new \Rhymix\Framework\Exception('일시적인 오류입니다. 잠시후 다시 시도해주세요.');
-		}
-		if(!empty($dictionary->channel->total->body) && isset($dictionary->channel->item))
-		{
-			if(!is_array($dictionary->channel->item))
+			$dictionary_url = 'https://opendict.korean.go.kr/api/search';
+			$params = array(
+				'key' => self::$addon_info->opendict_api_key,
+				'q' => $this->nick_name,
+				'part' => 'word',
+				'sort' => 'dict',
+				'start' => '1',
+				'num' => '10',
+			);
+			if(!($dictionary = self::requestAPI($dictionary_url, $params)) || isset($dictionary->error))
 			{
-				$dictionary->channel->item = array($dictionary->channel->item);
+				throw new \Rhymix\Framework\Exception('일시적인 오류입니다. 잠시후 다시 시도해주세요.');
 			}
-			foreach($dictionary->channel->item as $item)
+			if(!empty($dictionary->channel->total->body) && isset($dictionary->channel->item))
 			{
-				if(in_array(str_replace(array('-', '^'), '', $item->word->body), [$this->nick_name, $this->nick_name . '님']))
+				if(!is_array($dictionary->channel->item))
 				{
-					throw new \Rhymix\Framework\Exception('사용할 수 없는 닉네임입니다.');
+					$dictionary->channel->item = array($dictionary->channel->item);
+				}
+				foreach($dictionary->channel->item as $item)
+				{
+					if(in_array(str_replace(array('-', '^'), '', $item->word->body), [$this->nick_name, $this->nick_name . '님']))
+					{
+						throw new \Rhymix\Framework\Exception('사용할 수 없는 닉네임입니다.');
+					}
 				}
 			}
 		}
@@ -252,7 +247,7 @@ class required_nickname
 	private static function getAmbiguousWord()
 	{
 		return [
-			'관리자', 'admin', '매니저', '운영자', '운영진',
+			'관리자', 'admin', 'administrator', '매니저', 'manager', '운영자', '운영진', '운영팀', '중재자', 'moderator',
 			'닉네임', '회원', '질문자', '게시자', '작성자', '글쓴이', '익명', '선생', '스승', '서방', '선배', '후배', '아우', '천주', '생원', '형수', '형제', '자매', '고객', '도련', '공주', '왕자', '백작', '영감', '대감', '상감', '선비', '나라', '나랏', '하나', '하느', '아버', '이모', '고모', '부모', '어머', '할머', '장', '사', '스', '주', '님', '손', '마', '누', '형', '별', '헹', '행', '부', '녀', '관', '령', '신', '자', '가',
 		];
 	}

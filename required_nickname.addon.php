@@ -3,7 +3,11 @@ if(!defined('RX_VERSION'))
 {
 	exit;
 }
-if($called_position !== 'before_module_init' || Context::get('logged_info')->is_admin === 'Y' || !Context::get('nick_name'))
+if($called_position !== 'before_module_init')
+{
+	return;
+}
+if(!Context::get('is_logged') || !Context::get('nick_name') || Context::get('logged_info')->is_admin === 'Y')
 {
 	return;
 }
@@ -15,6 +19,5 @@ getController('module')->addTriggerFunction('moduleObject.proc', 'before', funct
 	{
 		return;
 	}
-	
 	new addons\required_nickname($addon_info);
 });
