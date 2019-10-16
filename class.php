@@ -19,14 +19,14 @@ class required_nickname
 	
 	private function checkCharacter()
 	{
-		$allow_character = array();
-		$allow_character_name = array();
+		$allow_characters = array();
+		$allow_character_names = array();
 		
 		// Allow hangul
 		if(self::$addon_info->allow_hangul !== 'N')
 		{
-			$allow_character[] = '가-힣';
-			$allow_character_name[] = '한글';
+			$allow_characters[] = '가-힣';
+			$allow_character_names[] = '한글';
 			
 			if(preg_match('/[ㄱ-ㅎㅏ-ㅣ]/u', $this->nick_name))
 			{
@@ -41,38 +41,38 @@ class required_nickname
 		// Allow english
 		if(self::$addon_info->allow_lowercase !== 'N' && self::$addon_info->allow_uppercase !== 'N')
 		{
-			$allow_character[] = 'a-zA-Z';
-			$allow_character_name[] = '영문';
+			$allow_characters[] = 'a-zA-Z';
+			$allow_character_names[] = '영문';
 		}
 		// Allow lowercase
 		else if(self::$addon_info->allow_lowercase !== 'N')
 		{
-			$allow_character[] = 'a-z';
-			$allow_character_name[] = '영소문자';
+			$allow_characters[] = 'a-z';
+			$allow_character_names[] = '영소문자';
 		}
 		// Allow uppercase
 		else if(self::$addon_info->allow_uppercase !== 'N')
 		{
-			$allow_character[] = 'A-Z';
-			$allow_character_name[] = '영대문자';
+			$allow_characters[] = 'A-Z';
+			$allow_character_names[] = '영대문자';
 		}
 		
 		// Check character
-		$allow_character_name = implode('/', $allow_character_name);
+		$allow_character_name = implode('/', $allow_character_names);
 		if($allow_character_name === '한글')
 		{
 			$this->only_hangul = true;
 		}
 		if(self::$addon_info->mixed_use === 'N' && !$this->only_hangul)
 		{
-			if(!preg_match(sprintf('/^(?:[%s]+)$/u', implode(']+|[', $allow_character)), $this->nick_name))
+			if(!preg_match(sprintf('/^(?:[%s]+)$/u', implode(']+|[', $allow_characters)), $this->nick_name))
 			{
 				throw new \Rhymix\Framework\Exception(sprintf('닉네임은 %s 중 하나로만 이루어져야 합니다. (혼용불가)', $allow_character_name));
 			}
 		}
 		else
 		{
-			if(preg_match(sprintf('/[^%s]/u', implode('', $allow_character)), $this->nick_name))
+			if(preg_match(sprintf('/[^%s]/u', implode('', $allow_characters)), $this->nick_name))
 			{
 				throw new \Rhymix\Framework\Exception(sprintf('닉네임은 %s만 가능합니다.', $allow_character_name));
 			}
