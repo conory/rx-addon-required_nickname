@@ -92,22 +92,22 @@ class required_nickname
 		// Check length
 		if($this->only_hangul)
 		{
-			if(self::$addon_info->min_length && $name_length < self::$addon_info->min_length)
+			if(self::$addon_info->min_length > 0 && $name_length < self::$addon_info->min_length)
 			{
 				throw new \Rhymix\Framework\Exception(sprintf('닉네임의 길이는 최소 %s자 이상이어야 합니다.', (int)(self::$addon_info->min_length / 2)));
 			}
-			if(self::$addon_info->max_length && $name_length > self::$addon_info->max_length)
+			if(self::$addon_info->max_length > 0 && $name_length > self::$addon_info->max_length)
 			{
 				throw new \Rhymix\Framework\Exception(sprintf('닉네임의 길이는 최대 %s자 이하여야 합니다.', (int)(self::$addon_info->max_length / 2)));
 			}
 		}
 		else
 		{
-			if(self::$addon_info->min_length && $name_length < self::$addon_info->min_length)
+			if(self::$addon_info->min_length > 0 && $name_length < self::$addon_info->min_length)
 			{
 				throw new \Rhymix\Framework\Exception(sprintf('닉네임의 길이는 (소문자 기준) 최소 %s 이상이어야 합니다.', self::$addon_info->min_length));
 			}
-			if(self::$addon_info->max_length && $name_length > self::$addon_info->max_length)
+			if(self::$addon_info->max_length > 0 && $name_length > self::$addon_info->max_length)
 			{
 				throw new \Rhymix\Framework\Exception(sprintf('닉네임의 길이는 (소문자 기준) 최대 %s 이하여야 합니다.', self::$addon_info->max_length));
 			}
