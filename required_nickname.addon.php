@@ -12,12 +12,12 @@ if(!Context::get('nick_name') || Context::get('is_logged') && Context::get('logg
 	return;
 }
 
-require_once('addons/required_nickname/class.php');
 getController('module')->addTriggerFunction('moduleObject.proc', 'before', function($oModule) use($addon_info)
 {
 	if(!preg_match('/^(?:procMember(?:Insert|ModifyInfo)|procItemshopApplyItem)$/', $oModule->act, $matches))
 	{
 		return;
 	}
-	new addons\required_nickname($addon_info);
+	require_once('addons/required_nickname/class.php');
+	new Addons\required_nickname($addon_info);
 });

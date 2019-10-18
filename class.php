@@ -1,5 +1,5 @@
 <?php
-namespace addons;
+namespace Addons;
 class required_nickname
 {
 	private $nick_name = null;
