@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <addon version="0.2">
-    <title xml:lang="ko">닉네임 필수 애드온</title>
-    <description xml:lang="ko">
-		허용되지 않은 문자가 포함되어 있거나 지정 길이 이상의 닉네임을 제한합니다.
-    </description>
-    <version>0.1</version>
-    <date>2018-02-12</date>
-	
-    <author email_address="conorycom@gmail.com" link="https://xe.conory.com">
-        <name xml:lang="ko">conory</name>
-    </author>
+	<title xml:lang="ko">닉네임 필수 애드온</title>
+	<description xml:lang="ko">허용되지 않은 문자가 포함되어 있거나 지정 길이 이상의 닉네임을 제한합니다.</description>
+	<version>0.1</version>
+	<date>2018-02-12</date>
+	<author email_address="conorycom@gmail.com" link="https://xe.conory.com">
+		<name xml:lang="ko">conory</name>
+	</author>
 	<extra_vars>
 		<var name="min_length" type="text">
 			<title xml:lang="ko">최소 길이</title>
@@ -22,62 +19,62 @@
 		<var name="mixed_use" type="select">
 			<title xml:lang="ko">혼용</title>
 			<description xml:lang="ko">다른 종류의 문자와 혼용할 수 있습니다</description>
-            <options value="">
-                <title xml:lang="ko">허용함</title>
-            </options>
-            <options value="N">
-                <title xml:lang="ko">허용안함</title>
-            </options>
+			<options value="">
+				<title xml:lang="ko">허용함</title>
+			</options>
+			<options value="N">
+				<title xml:lang="ko">허용안함</title>
+			</options>
 		</var>
 		<var name="allow_hangul" type="select">
 			<title xml:lang="ko">한글 허용</title>
 			<description xml:lang="ko">한글 닉네임을 허용합니다.</description>
-            <options value="">
-                <title xml:lang="ko">허용함</title>
-            </options>
-            <options value="N">
-                <title xml:lang="ko">허용안함</title>
-            </options>
+			<options value="">
+				<title xml:lang="ko">허용함</title>
+			</options>
+			<options value="N">
+				<title xml:lang="ko">허용안함</title>
+			</options>
 		</var>
 		<var name="allow_lowercase" type="select">
 			<title xml:lang="ko">영소문자 허용</title>
 			<description xml:lang="ko">영소문자 닉네임을 허용합니다.</description>
-            <options value="">
-                <title xml:lang="ko">허용함</title>
-            </options>
-            <options value="N">
-                <title xml:lang="ko">허용안함</title>
-            </options>
+			<options value="">
+				<title xml:lang="ko">허용함</title>
+			</options>
+			<options value="N">
+				<title xml:lang="ko">허용안함</title>
+			</options>
 		</var>
 		<var name="allow_uppercase" type="select">
 			<title xml:lang="ko">영대문자 허용</title>
 			<description xml:lang="ko">영대문자 닉네임을 허용합니다.</description>
-            <options value="">
-                <title xml:lang="ko">허용함</title>
-            </options>
-            <options value="N">
-                <title xml:lang="ko">허용안함</title>
-            </options>
+			<options value="">
+				<title xml:lang="ko">허용함</title>
+			</options>
+			<options value="N">
+				<title xml:lang="ko">허용안함</title>
+			</options>
 		</var>
 		<var name="double_hangul" type="select">
 			<title xml:lang="ko">한글 쌍음</title>
 			<description xml:lang="ko">발음하기 어려운 한글의 겹자모음을 허용하지 않습니다.</description>
-            <options value="">
-                <title xml:lang="ko">허용안함</title>
-            </options>
-            <options value="Y">
-                <title xml:lang="ko">허용함</title>
-            </options>
+			<options value="">
+				<title xml:lang="ko">허용안함</title>
+			</options>
+			<options value="Y">
+				<title xml:lang="ko">허용함</title>
+			</options>
 		</var>
 		<var name="check_word" type="select">
 			<title xml:lang="ko">단어 체크</title>
 			<description xml:lang="ko">관리자로 오해할 수 없고, '님' 붙이지기도 애매하지 않고, 사전에 없는 이름만 허용합니다. 우리말샘 API Key 필요합니다.</description>
-            <options value="">
-                <title xml:lang="ko">사용안함</title>
-            </options>
-            <options value="Y">
-                <title xml:lang="ko">사용함</title>
-            </options>
+			<options value="">
+				<title xml:lang="ko">사용안함</title>
+			</options>
+			<options value="Y">
+				<title xml:lang="ko">사용함</title>
+			</options>
 		</var>
 		<var name="opendict_api_key" type="text">
 			<title xml:lang="ko">우리말샘 API Key</title>
