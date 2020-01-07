@@ -80,5 +80,15 @@
 			<title xml:lang="ko">우리말샘 API Key</title>
 			<description xml:lang="ko">우리말샘 (https://opendict.korean.go.kr)의 API 인증키를 입력해주세요.</description>
 		</var>
+		<var name="check_existing" type="select">
+			<title xml:lang="ko">기존 닉네임 체크</title>
+			<description xml:lang="ko">회원정보 수정시 기존 닉네임도 체크합니다.</description>
+			<options value="">
+				<title xml:lang="ko">사용안함</title>
+			</options>
+			<options value="Y">
+				<title xml:lang="ko">사용함</title>
+			</options>
+		</var>
 	</extra_vars>
 </addon>

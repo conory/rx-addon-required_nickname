@@ -14,7 +14,7 @@ if(!Context::get('nick_name') || Context::get('is_logged') && Context::get('logg
 
 getController('module')->addTriggerFunction('moduleObject.proc', 'before', function($oModule) use($addon_info)
 {
-	if(!preg_match('/^(?:procMember(?:Insert|ModifyInfo)|procItemshopApplyItem)$/', $oModule->act, $matches))
+	if(!preg_match('/^(?:procMember(?:Insert|ModifyInfo)|procItemshopApplyItem)$/', $oModule->act))
 	{
 		return;
 	}

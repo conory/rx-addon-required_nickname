@@ -11,6 +11,12 @@ class required_nickname
 		self::$addon_info = $addon_info;
 		$this->nick_name = \Context::get('nick_name');
 		
+		// Check current nick name
+		if($addon_info->check_existing !== 'Y' && \Context::get('is_logged') && $this->nick_name === \Context::get('logged_info')->nick_name)
+		{
+			return;
+		}
+		
 		// Check
 		$this->checkCharacter();
 		$this->checkLength();
