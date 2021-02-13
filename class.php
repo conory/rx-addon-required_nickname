@@ -3,7 +3,6 @@ namespace Addons;
 class required_nickname
 {
 	private $nick_name = null;
-	private $only_hangul = false;
 	private static $addon_info = null;
 	
 	public function __construct($addon_info)
@@ -65,11 +64,7 @@ class required_nickname
 		
 		// Check character
 		$allow_character_name = implode('/', $allow_character_names);
-		if($allow_character_name === '한글')
-		{
-			$this->only_hangul = true;
-		}
-		if(self::$addon_info->mixed_use === 'N' && !$this->only_hangul)
+		if(self::$addon_info->mixed_use === 'N' && count($allow_characters) > 1)
 		{
 			if(!preg_match(sprintf('/^(?:[%s]+)$/u', implode(']+|[', $allow_characters)), $this->nick_name))
 			{
@@ -96,7 +91,7 @@ class required_nickname
 		}
 		
 		// Check length
-		if($this->only_hangul)
+		if(preg_match('/^[가-힣]+$/u', $this->nick_name))
 		{
 			if(self::$addon_info->min_length > 0 && $name_length < self::$addon_info->min_length)
 			{
