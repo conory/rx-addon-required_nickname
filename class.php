@@ -182,7 +182,7 @@ class required_nickname
 		{
 			return;
 		}
-		return (new \XmlParser())->parse($buff);
+		return (new \XeXmlParser())->parse($buff);
 	}
 	
 	private static function isDoubleHangul($string)
