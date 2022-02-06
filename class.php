@@ -176,7 +176,7 @@ class required_nickname
 				array(),
 				array(),
 				array(),
-				array('ssl_verify_peer' => false)
+				array('verify' => false)
 		);
 		if(!$buff)
 		{
