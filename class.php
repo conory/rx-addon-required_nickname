@@ -25,7 +25,7 @@ class required_nickname
 	
 	public static function setConfig($addon_info)
 	{
-		self::$config = new stdClass;
+		self::$config = new \stdClass;
 		self::$config->min_length = (int)($addon_info->min_length ?? 0);
 		self::$config->max_length = (int)($addon_info->max_length ?? 0);
 		self::$config->is_mixed_use = tobool($addon_info->mixed_use ?? 'Y');
