@@ -19,5 +19,6 @@ getController('module')->addTriggerFunction('moduleObject.proc', 'before', funct
 		return;
 	}
 	require_once __DIR__ . '/class.php';
-	new Addons\required_nickname($addon_info);
+	Addons\required_nickname::setConfig($addon_info);
+	new Addons\required_nickname;
 });

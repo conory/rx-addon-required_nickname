@@ -3,15 +3,16 @@ namespace Addons;
 class required_nickname
 {
 	private $nick_name = null;
-	private static $addon_info = null;
+	private static $config = null;
 	
-	public function __construct($addon_info)
+	public function __construct()
 	{
-		self::$addon_info = $addon_info;
-		$this->nick_name = \Context::get('nick_name');
-		
-		// Check current nick name
-		if($addon_info->check_existing !== 'Y' && \Context::get('is_logged') && $this->nick_name === \Context::get('logged_info')->nick_name)
+		$this->setNickname(\Context::get('nick_name'));
+		if(self::$config === null || !$this->nick_name)
+		{
+			return;
+		}
+		if(!self::$config->is_check_existing && \Context::get('is_logged') && $this->nick_name === \Context::get('logged_info')->nick_name)
 		{
 			return;
 		}
@@ -22,13 +23,33 @@ class required_nickname
 		$this->checkWord();
 	}
 	
-	private function checkCharacter()
+	public static function setConfig($addon_info)
+	{
+		self::$config = new stdClass;
+		self::$config->min_length = (int)($addon_info->min_length ?? 0);
+		self::$config->max_length = (int)($addon_info->max_length ?? 0);
+		self::$config->is_mixed_use = tobool($addon_info->mixed_use ?? 'Y');
+		self::$config->is_allow_hangul = tobool($addon_info->allow_hangul ?? 'Y');
+		self::$config->is_allow_lowercase = tobool($addon_info->allow_lowercase ?? 'Y');
+		self::$config->is_allow_uppercase = tobool($addon_info->allow_uppercase ?? 'Y');
+		self::$config->is_double_hangul = tobool($addon_info->double_hangul ?? 'N');
+		self::$config->is_check_word = tobool($addon_info->check_word ?? 'N');
+		self::$config->opendict_api_key = $addon_info->opendict_api_key ?? null;
+		self::$config->is_check_existing = tobool($addon_info->check_existing ?? 'N');
+	}
+	
+	public function setNickname($nick_name)
+	{
+		$this->nick_name = $nick_name;
+	}
+	
+	public function checkCharacter()
 	{
 		$allow_characters = array();
 		$allow_character_names = array();
 		
 		// Allow hangul
-		if(self::$addon_info->allow_hangul !== 'N')
+		if(self::$config->is_allow_hangul)
 		{
 			$allow_characters[] = '가-힣';
 			$allow_character_names[] = '한글';
@@ -37,26 +58,26 @@ class required_nickname
 			{
 				throw new \Rhymix\Framework\Exception('한글 조합이 안된 자모음은 닉네임으로 사용할 수 없습니다.');
 			}
-			if(self::$addon_info->double_hangul !== 'Y' && self::isDoubleHangul($this->nick_name))
+			if(!self::$config->is_double_hangul && self::isDoubleHangul($this->nick_name))
 			{
 				throw new \Rhymix\Framework\Exception('사용할 수 없는 닉네임입니다.');
 			}
 		}
 		
 		// Allow english
-		if(self::$addon_info->allow_lowercase !== 'N' && self::$addon_info->allow_uppercase !== 'N')
+		if(self::$config->is_allow_lowercase && self::$config->is_allow_uppercase)
 		{
 			$allow_characters[] = 'a-zA-Z';
 			$allow_character_names[] = '영문';
 		}
 		// Allow lowercase
-		else if(self::$addon_info->allow_lowercase !== 'N')
+		elseif(self::$config->is_allow_lowercase)
 		{
 			$allow_characters[] = 'a-z';
 			$allow_character_names[] = '영소문자';
 		}
 		// Allow uppercase
-		else if(self::$addon_info->allow_uppercase !== 'N')
+		elseif(self::$config->is_allow_uppercase)
 		{
 			$allow_characters[] = 'A-Z';
 			$allow_character_names[] = '영대문자';
@@ -64,7 +85,7 @@ class required_nickname
 		
 		// Check character
 		$allow_character_name = implode('/', $allow_character_names);
-		if(self::$addon_info->mixed_use === 'N' && count($allow_characters) > 1)
+		if(!self::$config->is_mixed_use && count($allow_characters) > 1)
 		{
 			if(!preg_match(sprintf('/^(?:[%s]+)$/u', implode(']+|[', $allow_characters)), $this->nick_name))
 			{
@@ -80,7 +101,7 @@ class required_nickname
 		}
 	}
 	
-	private function checkLength()
+	public function checkLength()
 	{
 		$name_length = mb_strwidth($this->nick_name, 'UTF-8');
 		
@@ -93,31 +114,31 @@ class required_nickname
 		// Check length
 		if(preg_match('/^[가-힣]+$/u', $this->nick_name))
 		{
-			if(self::$addon_info->min_length > 0 && $name_length < self::$addon_info->min_length)
+			if(self::$config->min_length > 0 && $name_length < self::$config->min_length)
 			{
-				throw new \Rhymix\Framework\Exception(sprintf('닉네임의 길이는 최소 %s자 이상이어야 합니다.', (int)(self::$addon_info->min_length / 2)));
+				throw new \Rhymix\Framework\Exception(sprintf('닉네임의 길이는 최소 %d자 이상이어야 합니다.', (int)(self::$config->min_length / 2)));
 			}
-			if(self::$addon_info->max_length > 0 && $name_length > self::$addon_info->max_length)
+			if(self::$config->max_length > 0 && $name_length > self::$config->max_length)
 			{
-				throw new \Rhymix\Framework\Exception(sprintf('닉네임의 길이는 최대 %s자 이하여야 합니다.', (int)(self::$addon_info->max_length / 2)));
+				throw new \Rhymix\Framework\Exception(sprintf('닉네임의 길이는 최대 %d자 이하여야 합니다.', (int)(self::$config->max_length / 2)));
 			}
 		}
 		else
 		{
-			if(self::$addon_info->min_length > 0 && $name_length < self::$addon_info->min_length)
+			if(self::$config->min_length > 0 && $name_length < self::$config->min_length)
 			{
-				throw new \Rhymix\Framework\Exception(sprintf('닉네임의 길이는 (소문자 기준) 최소 %s 이상이어야 합니다.', self::$addon_info->min_length));
+				throw new \Rhymix\Framework\Exception(sprintf('닉네임의 길이는 (소문자 기준) 최소 %d 이상이어야 합니다.', self::$config->min_length));
 			}
-			if(self::$addon_info->max_length > 0 && $name_length > self::$addon_info->max_length)
+			if(self::$config->max_length > 0 && $name_length > self::$config->max_length)
 			{
-				throw new \Rhymix\Framework\Exception(sprintf('닉네임의 길이는 (소문자 기준) 최대 %s 이하여야 합니다.', self::$addon_info->max_length));
+				throw new \Rhymix\Framework\Exception(sprintf('닉네임의 길이는 (소문자 기준) 최대 %d 이하여야 합니다.', self::$config->max_length));
 			}
 		}
 	}
 	
-	private function checkWord()
+	public function checkWord()
 	{
-		if(self::$addon_info->check_word !== 'Y')
+		if(!self::$config->is_check_word)
 		{
 			return;
 		}
@@ -133,11 +154,11 @@ class required_nickname
 		}
 		
 		// Dictionary
-		if(self::$addon_info->opendict_api_key && preg_match('/^[가-힣]+$/u', $this->nick_name))
+		if(self::$config->opendict_api_key && preg_match('/^[가-힣]+$/u', $this->nick_name))
 		{
 			$dictionary_url = 'https://opendict.korean.go.kr/api/search';
 			$params = array(
-				'key' => self::$addon_info->opendict_api_key,
+				'key' => self::$config->opendict_api_key,
 				'q' => $this->nick_name,
 				'part' => 'word',
 				'sort' => 'dict',

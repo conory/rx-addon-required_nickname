@@ -19,7 +19,7 @@
 		<var name="mixed_use" type="select">
 			<title xml:lang="ko">혼용</title>
 			<description xml:lang="ko">다른 종류의 문자와 혼용할 수 있습니다</description>
-			<options value="">
+			<options value="Y">
 				<title xml:lang="ko">허용함</title>
 			</options>
 			<options value="N">
@@ -29,7 +29,7 @@
 		<var name="allow_hangul" type="select">
 			<title xml:lang="ko">한글 허용</title>
 			<description xml:lang="ko">한글 닉네임을 허용합니다.</description>
-			<options value="">
+			<options value="Y">
 				<title xml:lang="ko">허용함</title>
 			</options>
 			<options value="N">
@@ -39,7 +39,7 @@
 		<var name="allow_lowercase" type="select">
 			<title xml:lang="ko">영소문자 허용</title>
 			<description xml:lang="ko">영소문자 닉네임을 허용합니다.</description>
-			<options value="">
+			<options value="Y">
 				<title xml:lang="ko">허용함</title>
 			</options>
 			<options value="N">
@@ -49,7 +49,7 @@
 		<var name="allow_uppercase" type="select">
 			<title xml:lang="ko">영대문자 허용</title>
 			<description xml:lang="ko">영대문자 닉네임을 허용합니다.</description>
-			<options value="">
+			<options value="Y">
 				<title xml:lang="ko">허용함</title>
 			</options>
 			<options value="N">
@@ -59,7 +59,7 @@
 		<var name="double_hangul" type="select">
 			<title xml:lang="ko">한글 쌍음</title>
 			<description xml:lang="ko">발음하기 어려운 한글의 겹자모음을 허용하지 않습니다.</description>
-			<options value="">
+			<options value="N">
 				<title xml:lang="ko">허용안함</title>
 			</options>
 			<options value="Y">
@@ -69,7 +69,7 @@
 		<var name="check_word" type="select">
 			<title xml:lang="ko">단어 체크</title>
 			<description xml:lang="ko">관리자로 오해할 수 없고, '님' 붙이지기도 애매하지 않고, 사전에 없는 이름만 허용합니다. 우리말샘 API Key 필요합니다.</description>
-			<options value="">
+			<options value="N">
 				<title xml:lang="ko">사용안함</title>
 			</options>
 			<options value="Y">
@@ -83,7 +83,7 @@
 		<var name="check_existing" type="select">
 			<title xml:lang="ko">기존 닉네임 체크</title>
 			<description xml:lang="ko">회원정보 수정시 변경되지 않은 기존 닉네임도 체크합니다.</description>
-			<options value="">
+			<options value="N">
 				<title xml:lang="ko">사용안함</title>
 			</options>
 			<options value="Y">
