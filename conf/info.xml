@@ -4,7 +4,7 @@
 	<description xml:lang="ko">허용되지 않은 문자가 포함되어 있거나 지정 길이 이상의 닉네임을 제한합니다.</description>
 	<version>0.1</version>
 	<date>2018-02-12</date>
-	<author email_address="conorycom@gmail.com" link="https://xe.conory.com">
+	<author email_address="conory@conory.com" link="https://conory.com">
 		<name xml:lang="ko">conory</name>
 	</author>
 	<extra_vars>
